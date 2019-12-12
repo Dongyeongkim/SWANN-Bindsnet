@@ -3,14 +3,16 @@ import random as rd
 import SWANN.src.NEAT as NEAT
 
 def Generate_Gene_Pool(G_num):
+    Gene_Pool = []
     for _ in range(G_num):
-        Gene = []
         tNoRN = rd.randint(10,100)            #The Number of Random Neurons 
         tNoRC = rd.randint(1,tNoRN*(tNoRN-1)) #The Number of Random Connection
+        Gene = [] 
         for _ in range(tNoRC):
             Gene.append(NEAT.Generate_Gene_Base(tNoRN))
-    
-    return Gene
+        Gene_Pool.append(Gene)
+
+    return Gene_Pool
 
 def Write_Gene(Gene_Pool):
     for i in range(len(Gene_Pool)):
@@ -35,10 +37,6 @@ def Read_Gene():
         Gene_Pool.append(GeneBase_List)
     
     return Gene_Pool
-
-
-
-
 
 
 
