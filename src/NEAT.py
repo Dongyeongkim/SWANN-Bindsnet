@@ -1,6 +1,6 @@
 import random as rd
 
-### - IMPLEMENT NEAT ALGORITHM TO THIS CODE - ###
+### - IMPLEMENT NEAT ALGORITHM TO THIS - ###
 
 def Crossover(gene1,gene2):
     A_Gene1 = []; A_Gene2 = []
@@ -35,15 +35,15 @@ def Generate_Gene_Base(Neuron_a):
         s = rd.randint(1,Neuron_Num)
         t = rd.randint(1,Neuron_Num)
         if(s!=t):
-            q= len(Neuron_a)-len(s)
-            r= len(Neuron_a)-len(t)
+            q= len(str(Neuron_a))-len(str(s))
+            r= len(str(Neuron_a))-len(str(t))
             Emp_S='';Emp_T='' # For Filling empty space by 0
             for _ in range(q):
                 Emp_S+='0'
-            Emp_S+=s
+            Emp_S+=str(s)
             for _ in range(r):
                 Emp_T+='0'
-            Emp_T+=s
+            Emp_T+=str(t)
             Source_Neuron = Emp_S
             Target_Neuron = Emp_T
             break
