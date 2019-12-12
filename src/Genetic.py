@@ -1,0 +1,46 @@
+import os
+import random as rd
+import SWANN.src.NEAT as NEAT
+
+def Generate_Gene_Pool(G_num):
+    for _ in range(G_num):
+        Gene = []
+        tNoRN = rd.randint(10,100)            #The Number of Random Neurons 
+        tNoRC = rd.randint(1,tNoRN*(tNoRN-1)) #The Number of Random Connection
+        for _ in range(tNoRC):
+            Gene.append(NEAT.Generate_Gene_Base(tNoRN))
+    
+    return Gene
+
+def Write_Gene(Gene_Pool):
+    for i in range(len(Gene_Pool)):
+        f = open('gene/'+str(i)+'.txt','w')
+        for j in range(len(Gene_Pool[i])):
+            if(j==0):
+                f.write(Gene_Pool[i][j])
+            else:
+                f.write('/'+Gene_Pool[i][j])
+        f.close()
+
+def Read_Gene():
+    Gene_Pool = []
+    path = "gene/"
+    file_list = os.listdir(path)
+    gene_list = [file for file in file_list if file.endswith(".txt")]
+    for i in gene_list:
+        f = open('gene/'+str(i)+'.txt','r')
+        gene=f.read()
+        f.close()
+        GeneBase_List = gene.split('/')
+        Gene_Pool.append(GeneBase_List)
+    
+    return Gene_Pool
+
+
+
+
+
+
+
+
+
