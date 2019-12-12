@@ -29,13 +29,25 @@ def Crossover(gene1,gene2):
     return A_Gene1,A_Gene2
 
 
+
 def Generate_Gene_Base(Neuron_a,Num):
     Neuron_Num = Neuron_a # Neuron Amount
     Neuron_Type = rd.choice('~!@#$')
     while True:
-        Source_Neuron = str(rd.randint(1,Neuron_Num))
-        Target_Neuron = str(rd.randint(1,Neuron_Num))
-        if(Source_Neuron!=Target_Neuron):
+        s = rd.randint(1,Neuron_Num)
+        t = rd.randint(1,Neuron_Num)
+        if(s!=t):
+            q= len(Neuron_a)-len(s)
+            r= len(Neuron_a)-len(t)
+            Emp_S='';Emp_T='' # For Filling empty space by 0
+            for _ in range(q):
+                Emp_S+='0'
+            Emp_S+=s
+            for _ in range(r):
+                Emp_T+='0'
+            Emp_T+=s
+            Source_Neuron = Emp_S
+            Target_Neuron = Emp_T
             break
         else:
             pass
@@ -45,7 +57,7 @@ def Generate_Gene_Base(Neuron_a,Num):
     else:
         Connection = 'F'
 
-    Gene_Base = Num + '>' + Source_Neuron + Neuron_Type + Target_Neuron + Connection;print(Gene_Base)
+    Gene_Base = Num + '>' + Source_Neuron + Neuron_Type + Target_Neuron + Connection
     return Gene_Base
 
 
