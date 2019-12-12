@@ -1,6 +1,6 @@
 import os
 import random as rd
-import SWANN.src.NEAT as NEAT
+import src.NEAT as NEAT
 
 def Generate_Gene_Pool(G_num):
     Gene_Pool = []
@@ -30,15 +30,11 @@ def Read_Gene():
     file_list = os.listdir(path)
     gene_list = [file for file in file_list if file.endswith(".txt")]
     for i in gene_list:
-        f = open('gene/'+str(i)+'.txt','r')
+        f = open('gene/'+str(i),'r')
         gene=f.read()
         f.close()
         GeneBase_List = gene.split('/')
         Gene_Pool.append(GeneBase_List)
     
     return Gene_Pool
-
-
-
-
 
