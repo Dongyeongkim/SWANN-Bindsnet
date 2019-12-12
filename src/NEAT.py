@@ -1,6 +1,6 @@
 import random as rd
 
-### - IMPLEMENT NEAT ALGORITHM TO THIS - ###
+### - IMPLEMENT NEAT ALGORITHM TO THIS CODE - ###
 
 def Crossover(gene1,gene2):
     A_Gene1 = []; A_Gene2 = []
@@ -28,9 +28,7 @@ def Crossover(gene1,gene2):
     
     return A_Gene1,A_Gene2
 
-
-
-def Generate_Gene_Base(Neuron_a,Num):
+def Generate_Gene_Base(Neuron_a):
     Neuron_Num = Neuron_a # Neuron Amount
     Neuron_Type = rd.choice('~!@#$')
     while True:
@@ -57,11 +55,11 @@ def Generate_Gene_Base(Neuron_a,Num):
     else:
         Connection = 'F'
 
-    Gene_Base = Num + '>' + Source_Neuron + Neuron_Type + Target_Neuron + Connection
+    Gene_Base = Source_Neuron + Neuron_Type + Target_Neuron + Connection
     return Gene_Base
 
 
-def Mutate(Gene,accr):
+def Mutate(Gene,accr,Neuron_Num):
 
     Mutated_Gene = []
     for i in range(len(Gene)):
@@ -69,21 +67,19 @@ def Mutate(Gene,accr):
         if(1-accr>random_PER):
             Mutated_Gene.append(Gene[i])
         else:
-            Gene_Slave =Gene[i].split('>'); Gene_Slave = Gene_Slave[1]; Gene_Node = Gene_Slave[0]
-            for j in range(len(Gene_Slave)):
-                if(Gene_Slave[j].isdecimal()==False):
-                    Gene_Slave = Gene_Slave.split(Gene_Slave[j])
-                    Source_Neuron = int(Gene_Slave[0])
-                    Gene_Slave = Gene_Slave[1]
-                    for k in range(len(Gene_Slave)):
-                        if(Gene_Slave[k].isdecimal()==False):
-                            Gene_Slave = Gene_Slave.split(Gene_Slave[j])
-                            Target_Neuron = Gene_Slave[0]
-                        else:
-                            pass
+            if(Gene[i].isdecimal()==False):
+                Gene_Slave = Gene.split(Gene[i])
+                Source_Neuron = int(Gene_Slave[0])
+                Gene_Slave = Gene_Slave[1]
+                for j in range(len(Gene_Slave)):
+                    if(Gene_Slave[j].isdecimal()==False):
+                        Gene_Slave = Gene_Slave.split(Gene_Slave[j])
+                        Target_Neuron = Gene_Slave[0]
+                    else:
+                        pass
 
-                else:
-                    pass
+            else:
+                pass
                 
             Neuron_Type = rd.choice('~!@#$')
             Connection = rd.choice('01')
@@ -91,12 +87,12 @@ def Mutate(Gene,accr):
                 Connection = 'T'
             else:
                 Connection = 'F'
-            Mutated_Gene.append(Gene_Node + '>' + Source_Neuron + Neuron_Type + Target_Neuron + Connection)
+            Mutated_Gene.append(Source_Neuron + Neuron_Type + Target_Neuron + Connection)
         
     random_factor = rd.random()
     while(0.7-accr>random_factor):
         random_factor = rd.random()
-        Mutated_Gene.append(Generate_Gene_Base(10000,len(Mutated_Gene)+1))
+        Mutated_Gene.append(Generate_Gene_Base(Neuron_Num))
     
     return Mutated_Gene
 
