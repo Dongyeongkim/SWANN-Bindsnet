@@ -5,7 +5,8 @@ from bindsnet.network import Network
 from bindsnet.network.topology import Connection
 from bindsnet.learning.learning import MSTDP
 
-def Translate_into_Networks(input_N,Shape,Output_N,Weight):
+def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
+
     path = "gene/"; file_list = os.listdir(path)
     gene_file_check = [file for file in file_list if file.endswith(".txt")]
     if len(gene_file_check) == 0:
@@ -75,6 +76,7 @@ def Translate_into_Networks(input_N,Shape,Output_N,Weight):
 
                 else:
                     pass
+
         layer_list = {};layer_key_list = []
         for m in range(len(Decoded_List)):
             for n in range(len(Decoded_List)):
@@ -94,13 +96,39 @@ def Translate_into_Networks(input_N,Shape,Output_N,Weight):
 
                 elif n == len(Decoded_List):
                     layer_list[m] = nodes.LIFNodes(n=1)
-        
 
+        for o in range(len(Decoded_List)):
+            if(type(layer_list[Decoded_List[o][1]])==nodes.LIFNodes):
+                inpt_connection = Connection(source=Input_Layer, target=layer_list[Decoded_List[o][0]], wmin=0,
+                                             wmax=1e-1)
+                mid_connection = Connection(source=layer_list[Decoded_List[o][0]],
+                                            target=layer_list[Decoded_List[o][1]],
+                                            wmin=0,
+                                            wmax=1,
+                                            update_rule=MSTDP,
+                                            nu=1e-1,
+                                            norm=Weight,
+                                            )
+                Output_connection = Connection(source=layer_list[Decoded_List[o][1]], target=Output_Layer[
+                    (Decoded_List[o][1] % len(Output_Layer))],
+                                               wmin=0,
+                                               wmax=1,
+                                               update_rule=MSTDP,
+                                               nu=1e-1,
+                                               norm=Weight,
+                                               )
+                network.add_layer(layer_list[Decoded_List[o][0]], name=str(Decoded_List[o][0]))
+                network.add_layer(layer_list[Decoded_List[o][1]], name=str(Decoded_List[o][1]))
+                network.add_connection(inpt_connection, source="Input_Layer",target=str(Decoded_List[o][0]))
+                network.add_connection(mid_connection, source=str(Decoded_List[o][0]), target=str(Decoded_List[o][1]))
+                network.add_connection(Output_connection, source=str(Decoded_List[o][1]), target="Target_Layer_"+str((Decoded_List[o][1] % len(Output_Layer))))
+            else:
+                #TODO: ADDING THE CONNECTION BETWEEN LAYERS
+                pass
 
+def Save_Networks(Network):
+    pass
 
-
-
-#TODO: ADDING THE CONNECTION BETWEEN THE LAYERS
 
 
 
