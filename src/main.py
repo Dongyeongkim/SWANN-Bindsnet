@@ -1,5 +1,3 @@
-
-import os
 import random as rd
 import src.SNN as SNN
 import src.NEAT as NEAT
@@ -18,11 +16,7 @@ for i in range(Generation_num):
     descendants_gene = []
     for score in score_set:
         partial_score_list = []
-        ribosome.Translate_Into_Networks(80*80, [80, 80], 4, score)
-        path = "Network/"
-        file_list = os.listdir(path)
-        network_file = [file for file in file_list if file.endswith(".pt")]
-        network_list = SNN.import_network(network_file)
+        network_list = ribosome.Translate_Into_Networks(80*80, [80, 80], 4, score)
         partial_score_list = SNN.return_score(network_list)
         gene_score_list.append(partial_score_list)
     for j in range(len(gene_score_list)):
@@ -38,7 +32,6 @@ for i in range(Generation_num):
         descendants_gene.append(Agene1)
         descendants_gene.append(Agene2)
     Genetic.Write_Gene(descendants_gene)
-
 
 
 
