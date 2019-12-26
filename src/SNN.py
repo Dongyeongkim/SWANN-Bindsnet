@@ -48,6 +48,7 @@ def return_score(network_list):
 
         print("Testing: ")
         score_sum += run_pipeline(environment_pipeline, episode_count=10)
+        print(score_sum/10)
         score_list.append(score_sum/10)
 
     return score_list
