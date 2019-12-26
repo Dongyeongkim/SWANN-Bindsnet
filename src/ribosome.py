@@ -3,7 +3,7 @@ import src.Genetic as Genetic
 from bindsnet.network import nodes
 from bindsnet.network import Network
 from bindsnet.network.topology import Connection
-from bindsnet.learning.learning import PostPre
+from bindsnet.learning.learning import MSTDP
 
 def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
     path = "gene/"; file_list = os.listdir(path)
@@ -39,8 +39,9 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
         for k in range(len(Decoded_List)):
             if(k==len(Decoded_List)):
                 break
-            for l in range(k+1,len(Decoded_List)):
-                if Decoded_List[k][0:1] == Decoded_List[l][0:1]:
+
+            for l in range(k+1, len(Decoded_List)):
+                if ((Decoded_List[k][0] == Decoded_List[l][0])and(Decoded_List[k][1] == Decoded_List[l][1]))== True:
 
                     if Decoded_List[k][2] == 0:
                         Decoded_List.remove(Decoded_List[l])
@@ -99,8 +100,8 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
             network.add_layer(layer=layer_list[key_l], name=str(key_l))
 
         for key_ic in list(layer_list.keys()):
-            input_connection = Connection(source=Input_Layer, target=layer_list[key_ic], w=Weight)
-            network.add_connection(input_connection, source="Input_Layer", target=str(key_ic))
+            inpt_connection = Connection(source=Input_Layer, target=layer_list[key_ic], w=Weight)
+            network.add_connection(inpt_connection, source="Input_Layer", target=str(key_ic))
 
         for key_op in list(layer_list.keys()):
             output_connection = Connection(source=layer_list[key_op], target=Output_Layer[key_op % len(Output_Layer)])
@@ -109,10 +110,16 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
 
         for o in range(len(Decoded_List)):
             mid_connection = Connection(source=layer_list[Decoded_List[0]], target=layer_list[Decoded_List[1]],
-                                        wmin=-2, wmax=2, update_rule=PostPre, norm=Weight)
-            network.add_connection(mid_connection,source=str(Decoded_List[0]), target=str(Decoded_List[1]))
+                                        wmin=-2, wmax=2, update_rule=MSTDP, norm=Weight)
+            network.add_connection(mid_connection, source=str(Decoded_List[0]), target=str(Decoded_List[1]))
 
         network.save('Network/'+str(i)+'.pt')
+
+
+
+
+
+
 
 
 
