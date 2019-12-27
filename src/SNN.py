@@ -1,3 +1,4 @@
+
 from bindsnet.encoding import bernoulli
 from bindsnet.environment import GymEnvironment
 from bindsnet.pipeline import EnvironmentPipeline
@@ -38,7 +39,7 @@ def return_score(network_list):
             history_length=1,
             delta=1,
             plot_interval=1,
-            render_interval=0,
+            render_interval=1,
         )
         print("Training: ")
         run_pipeline(environment_pipeline, episode_count=10)
@@ -48,11 +49,9 @@ def return_score(network_list):
 
         print("Testing: ")
         score_sum += run_pipeline(environment_pipeline, episode_count=10)
-        print(score_sum/10)
         score_list.append(score_sum/10)
 
     return score_list
-
 
 
 

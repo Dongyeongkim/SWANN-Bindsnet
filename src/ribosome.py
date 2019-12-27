@@ -42,7 +42,7 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
         Decoded_RNA_List: list = Decoded_DNA_List.copy()
 
         for decoded_dna_idx, decoded_dna in enumerate(Decoded_DNA_List):
-            for k in range(len(decoded_dna) - 1):
+            for k in range(len(decoded_dna)-1):
                 for l in range(k + 1, len(decoded_dna)):
                     is_source = decoded_dna[k][0] == decoded_dna[l][0]
                     is_target = decoded_dna[k][1] == decoded_dna[l][1]
@@ -140,3 +140,17 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
             network_list.append(network)
             network.save('Network/' + str(i) + '.pt')
     return network_list
+
+
+
+
+
+
+
+
+
+
+
+
+
+

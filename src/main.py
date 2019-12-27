@@ -1,8 +1,8 @@
 import random as rd
-import SNN
-import NEAT
-import Genetic
-import ribosome
+import src.SNN as SNN
+import src.NEAT as NEAT
+import src.Genetic as Genetic
+import src.ribosome as ribosome
 
 
 Generation_num = int(input("Input the number of testing generations"))
@@ -32,6 +32,7 @@ for i in range(Generation_num):
         descendants_gene.append(Agene1)
         descendants_gene.append(Agene2)
     Genetic.Write_Gene(descendants_gene)
+
 
 
 
