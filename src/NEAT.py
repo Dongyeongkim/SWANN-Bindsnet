@@ -17,16 +17,16 @@ def Crossover(gene1,gene2):
                 A_Gene1.append(C_Gene2[i])
      
     for j in range(len(C_Gene2)):
-        if(j>len(C_Gene1)-1):
+        if j > len(C_Gene1)-1:
             A_Gene2.append(C_Gene2)
         else:
             S_Genotype = rd.randint(0, 1)
-            if(S_Genotype==0):
+            if S_Genotype == 0:
                 A_Gene2.append(C_Gene1[j])
             else:
                 A_Gene2.append(C_Gene2[j])
     
-    return A_Gene1,A_Gene2
+    return A_Gene1, A_Gene2
 
 def Generate_Gene_Base(Neuron_a):
     Neuron_Num = Neuron_a # Neuron Amount
@@ -39,7 +39,7 @@ def Generate_Gene_Base(Neuron_a):
         Connection = 'F'
     elif(Connection=='1'):
         Connection = 'T'
-    Gene_Base = Source_Neuron +'-'+ Neuron_Type +'-'+ Target_Neuron +'-'+ Connection
+    Gene_Base = str(Source_Neuron) +'-'+ Neuron_Type +'-'+ str(Target_Neuron) +'-'+ Connection
     return Gene_Base
 
 
@@ -59,7 +59,7 @@ def Mutate(Gene,accr,Neuron_Num):
                 Connection = 'T'
             else:
                 Connection = 'F'
-            Mutated_Gene.append(Source_Neuron+'-'+Neuron_Type +'-'+Target_Neuron+'-'+Connection)
+            Mutated_Gene.append(str(Source_Neuron)+'-'+Neuron_Type +'-'+str(Target_Neuron)+'-'+Connection)
         
     random_factor = rd.random()
     while 0.7 - accr > random_factor:
