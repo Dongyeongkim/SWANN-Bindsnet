@@ -38,7 +38,7 @@ def return_score(network_list):
             history_length=1,
             delta=1,
             plot_interval=1,
-            render_interval=1,
+            render_interval=0,
         )
         print("Training: ")
         run_pipeline(environment_pipeline, episode_count=10)
