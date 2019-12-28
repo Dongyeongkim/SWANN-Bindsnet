@@ -1,6 +1,6 @@
 import os
 import random as rd
-import src.NEAT as NEAT
+import NEAT
 
 def Generate_Gene_Pool(G_num,Neuron_Num):
     Gene_Pool = []
