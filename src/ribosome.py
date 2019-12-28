@@ -11,7 +11,7 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
     path = "gene/"; file_list = os.listdir(path)
     gene_file_check = [file for file in file_list if file.endswith(".txt")]
     if len(gene_file_check) == 0:
-        import src.startup
+        import startup
     Gene_List = Genetic.Read_Gene()
     Decoded_DNA_List = []
     for i in range(len(Gene_List)):
