@@ -5,6 +5,7 @@ from bindsnet.network import Network
 from bindsnet.network.topology import Connection
 from bindsnet.learning.learning import MSTDP
 
+
 def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
     network_list = []
     path = "gene/"; file_list = os.listdir(path)
@@ -38,8 +39,9 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
         Decoded_RNA_List: list = Decoded_DNA_List.copy()
 
         for decoded_dna_idx, decoded_dna in enumerate(Decoded_DNA_List):
-            for k in range(len(decoded_dna)-1):
-                for l in range(k + 1, len(decoded_dna)):
+            Gene_NUM = len(decoded_dna);print(Gene_NUM)
+            for k in range(Gene_NUM):
+                for l in range(k, Gene_NUM):
                     is_source = decoded_dna[k][0] == decoded_dna[l][0]
                     is_target = decoded_dna[k][1] == decoded_dna[l][1]
                     if is_source and is_target:
@@ -114,7 +116,7 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
                     elif Decoded_RNA[l][2] == 4:
                         layer_list[Decoded_RNA[l][0]] = nodes.SRM0Nodes(n=1, traces=True)
 
-            Input_Layer = nodes.Input(n=input_N, shape=Shape, traces=True)
+            Input_Layer = nodes.Input(n=80 * 80, shape=[80, 80], traces=True)
             network.add_layer(layer=Input_Layer,name="Input Layer")
             for key_l in list(layer_list.keys()):
                 network.add_layer(layer=layer_list[key_l], name=str(key_l))
@@ -141,5 +143,17 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
             network_list.append(network)
             network.save('Network/' + str(i) + '.pt')
     return network_list
+
+
+
+
+
+
+
+
+
+
+
+
 
 
