@@ -116,7 +116,7 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
                     elif Decoded_RNA[l][2] == 4:
                         layer_list[Decoded_RNA[l][0]] = nodes.SRM0Nodes(n=1, traces=True)
 
-            Input_Layer = nodes.Input(n=80 * 80, shape=[80, 80], traces=True)
+            Input_Layer = nodes.Input(n= input_N, shape= Shape, traces=True)
             network.add_layer(layer=Input_Layer,name="Input Layer")
             for key_l in list(layer_list.keys()):
                 network.add_layer(layer=layer_list[key_l], name=str(key_l))
