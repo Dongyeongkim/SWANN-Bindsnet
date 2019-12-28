@@ -102,17 +102,19 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
                     elif n == len(Decoded_List) - 1:
                         layer_list[Decoded_RNA[m][1]] = nodes.LIFNodes(n=1)
 
-            if not Decoded_RNA[len(Decoded_RNA) - 1][0] in layer_list:
-                if Decoded_RNA[len(Decoded_RNA) - 1][2] == 0:
-                    layer_list[Decoded_RNA[len(Decoded_RNA) - 1][0]] = nodes.IFNodes(n=1, traces=True)
-                elif Decoded_RNA[len(Decoded_RNA) - 1][2] == 1:
-                    layer_list[Decoded_RNA[len(Decoded_RNA) - 1][0]] = nodes.LIFNodes(n=1, traces=True)
-                elif Decoded_RNA[len(Decoded_RNA) - 1][2] == 2:
-                    layer_list[Decoded_RNA[len(Decoded_RNA) - 1][0]] = nodes.McCullochPitts(n=1, traces=True)
-                elif Decoded_RNA[len(Decoded_RNA) - 1][2] == 3:
-                    layer_list[Decoded_RNA[len(Decoded_RNA) - 1][0]] = nodes.IzhikevichNodes(n=1, traces=True)
-                elif Decoded_RNA[len(Decoded_RNA) - 1][2] == 4:
-                    layer_list[Decoded_RNA[len(Decoded_RNA) - 1][0]] = nodes.SRM0Nodes(n=1, traces=True)
+            
+            for l in range(len(Decoded_RNA)):
+                if not Decoded_RNA[l][0] in layer_list:
+                    if Decoded_RNA[l][2] == 0:
+                        layer_list[Decoded_RNA[l][0]] = nodes.IFNodes(n=1, traces=True)
+                    elif Decoded_RNA[l][2] == 1:
+                        layer_list[Decoded_RNA[l][0]] = nodes.LIFNodes(n=1, traces=True)
+                    elif Decoded_RNA[l][2] == 2:
+                        layer_list[Decoded_RNA[l][0]] = nodes.McCullochPitts(n=1, traces=True)
+                    elif Decoded_RNA[l][2] == 3:
+                        layer_list[Decoded_RNA[l][0]] = nodes.IzhikevichNodes(n=1, traces=True)
+                    elif Decoded_RNA[l][2] == 4:
+                        layer_list[Decoded_RNA[l][0]] = nodes.SRM0Nodes(n=1, traces=True)
 
             Input_Layer = nodes.Input(n=input_N, shape=Shape, traces=True)
             network.add_layer(layer=Input_Layer,name="Input Layer")
