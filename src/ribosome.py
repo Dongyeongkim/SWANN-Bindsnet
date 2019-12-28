@@ -13,9 +13,10 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
     if len(gene_file_check) == 0:
         import src.startup
     Gene_List = Genetic.Read_Gene()
+    Decoded_DNA_List = []
     for i in range(len(Gene_List)):
         network = Network()
-        Decoded_List = []; Decoded_DNA_List = []
+        Decoded_List = []
         for j in range(len(Gene_List[i])):
             Decoded_Gene=Gene_List[i][j].split('-')
             if(Decoded_Gene[3]=='F'):
