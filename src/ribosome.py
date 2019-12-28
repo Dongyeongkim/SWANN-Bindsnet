@@ -10,7 +10,7 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
     path = "gene/"; file_list = os.listdir(path)
     gene_file_check = [file for file in file_list if file.endswith(".txt")]
     if len(gene_file_check) == 0:
-        import startup
+        import src.startup
     Gene_List = Genetic.Read_Gene()
     for i in range(len(Gene_List)):
         network = Network()
@@ -101,8 +101,6 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
 
                     elif n == len(Decoded_List) - 1:
                         layer_list[Decoded_RNA[m][1]] = nodes.LIFNodes(n=1)
-
-            
             for l in range(len(Decoded_RNA)):
                 if not Decoded_RNA[l][0] in layer_list:
                     if Decoded_RNA[l][2] == 0:
@@ -143,3 +141,5 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
             network_list.append(network)
             network.save('Network/' + str(i) + '.pt')
     return network_list
+
+
