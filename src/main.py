@@ -1,8 +1,8 @@
 import random as rd
-import src.SNN as SNN
-import src.NEAT as NEAT
-import src.Genetic as Genetic
-import src.ribosome as ribosome
+import SNN
+import NEAT
+import Genetic
+import ribosome
 
 
 Generation_num = int(input("Input the number of testing generations"))
