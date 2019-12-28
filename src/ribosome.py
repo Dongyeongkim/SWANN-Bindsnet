@@ -13,10 +13,9 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
     if len(gene_file_check) == 0:
         import startup
     Gene_List = Genetic.Read_Gene()
-    Decoded_DNA_List = []
     for i in range(len(Gene_List)):
         network = Network()
-        Decoded_List = []
+        Decoded_List = []; Decoded_DNA_List = []
         for j in range(len(Gene_List[i])):
             Decoded_Gene=Gene_List[i][j].split('-')
             if(Decoded_Gene[3]=='F'):
@@ -40,13 +39,12 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
         Decoded_RNA_List: list = Decoded_DNA_List.copy()
 
         for decoded_dna_idx, decoded_dna in enumerate(Decoded_DNA_List):
-            Gene_NUM = len(decoded_dna);print(Gene_NUM)
+            Gene_NUM = len(decoded_dna)
             for k in range(Gene_NUM):
+                a = Decoded_DNA_List[decoded_dna_idx][k]
                 for l in range(k, Gene_NUM):
-                    is_source = decoded_dna[k][0] == decoded_dna[l][0]
-                    is_target = decoded_dna[k][1] == decoded_dna[l][1]
-                    if is_source and is_target:
-
+                    b = Decoded_DNA_List[decoded_dna_idx][l]
+                    if a and b == 1:
                         if decoded_dna[k][2] == 0:
                             Decoded_RNA_List[decoded_dna_idx].remove(decoded_dna[l])
 
@@ -117,7 +115,7 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
                     elif Decoded_RNA[l][2] == 4:
                         layer_list[Decoded_RNA[l][0]] = nodes.SRM0Nodes(n=1, traces=True)
 
-            Input_Layer = nodes.Input(n= input_N, shape= Shape, traces=True)
+            Input_Layer = nodes.Input(n=input_N, shape=Shape, traces=True)
             network.add_layer(layer=Input_Layer,name="Input Layer")
             for key_l in list(layer_list.keys()):
                 network.add_layer(layer=layer_list[key_l], name=str(key_l))
@@ -144,12 +142,6 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
             network_list.append(network)
             network.save('Network/' + str(i) + '.pt')
     return network_list
-
-
-
-
-
-
 
 
 
