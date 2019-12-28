@@ -1,5 +1,5 @@
 import os
-import src.Genetic as Genetic
+import Genetic
 from bindsnet.network import nodes
 from bindsnet.network import Network
 from bindsnet.network.topology import Connection
@@ -10,14 +10,10 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
     path = "gene/"; file_list = os.listdir(path)
     gene_file_check = [file for file in file_list if file.endswith(".txt")]
     if len(gene_file_check) == 0:
-        import src.startup
+        import startup
     Gene_List = Genetic.Read_Gene()
     for i in range(len(Gene_List)):
         network = Network()
-        Input_Layer = nodes.Input(n=input_N, shape=Shape, traces=True)
-        out = nodes.LIFNodes(n=Output_N, refrac=0, traces=True)
-        network.add_layer(layer=Input_Layer, name="Input_Layer")
-        network.add_layer(layer=out, name="Output Layer")
         Decoded_List = []; Decoded_DNA_List = []
         for j in range(len(Gene_List[i])):
             Decoded_Gene=Gene_List[i][j].split('-')
@@ -118,6 +114,13 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
                 elif Decoded_RNA[len(Decoded_RNA) - 1][2] == 4:
                     layer_list[Decoded_RNA[len(Decoded_RNA) - 1][0]] = nodes.SRM0Nodes(n=1, traces=True)
 
+            Input_Layer = nodes.Input(n=input_N, shape=Shape, traces=True)
+            network.add_layer(layer=Input_Layer,name="Input Layer")
+            for key_l in list(layer_list.keys()):
+                network.add_layer(layer=layer_list[key_l], name=str(key_l))
+            out = nodes.LIFNodes(n=Output_N, refrac=0, traces=True)
+            network.add_layer(layer=out, name="Output Layer")
+
             for key_ic in list(layer_list.keys()):
                 inpt_connection = Connection(source=Input_Layer, target=layer_list[key_ic],
                                              norm=Weight)
@@ -135,22 +138,6 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
                                             wmin=-2, wmax=2, update_rule=MSTDP, norm=Weight)
                 network.add_connection(mid_connection, source=str(generating_protein[0]), target=str(generating_protein[1]))
 
-            for key_l in list(layer_list.keys()):
-                network.add_layer(layer=layer_list[key_l], name=str(key_l))
             network_list.append(network)
             network.save('Network/' + str(i) + '.pt')
     return network_list
-
-
-
-
-
-
-
-
-
-
-
-
-
-
