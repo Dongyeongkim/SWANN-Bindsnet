@@ -42,12 +42,10 @@ def Generate_Gene_Base(Neuron_a):
     Gene_Base = str(Source_Neuron) +'-'+ Neuron_Type +'-'+ str(Target_Neuron) +'-'+ Connection
     return Gene_Base
 
-
-def Mutate(Gene,accr,Neuron_Num):
+def Mutate(Gene,score,Neuron_Num):
     Mutated_Gene = []
     for i in range(len(Gene)):
-        random_PER = rd.random()
-        if(1-accr>random_PER):
+        if(score>100):
             Mutated_Gene.append(Gene[i])
         else:
             Decoded_Gene = Gene[i].split('-')
@@ -60,14 +58,11 @@ def Mutate(Gene,accr,Neuron_Num):
             else:
                 Connection = 'F'
             Mutated_Gene.append(str(Source_Neuron)+'-'+Neuron_Type +'-'+str(Target_Neuron)+'-'+Connection)
-        
-    random_factor = rd.random()
-    while 0.7 - accr > random_factor:
-        random_factor = rd.random()
+
+    if score < 100:
         Mutated_Gene.append(Generate_Gene_Base(Neuron_Num))
     
     return Mutated_Gene
-
 
 def calc_and_select_gene(accr_set, gene_list):
     all_sum = sum(accr_set)
