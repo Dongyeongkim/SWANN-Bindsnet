@@ -1,8 +1,8 @@
-import random as rd
 import SNN
 import NEAT
 import Genetic
 import ribosome
+import random as rd
 
 
 Generation_num = int(input("Input the number of testing generations"))
@@ -14,6 +14,7 @@ for i in range(Generation_num):
     real_score = []
     selected_gene = []
     descendants_gene = []
+    descendant_mutated = []
     for score in score_set:
         partial_score_list = []
         network_list = ribosome.Translate_Into_Networks(80*80, [80, 80], 4, score)
@@ -31,6 +32,8 @@ for i in range(Generation_num):
         gene_list.remove(cross2)
         descendants_gene.append(Agene1)
         descendants_gene.append(Agene2)
+    for idx_gene,gene in enumerate(descendants_gene):
+        descendant_mutated.append(NEAT.Mutate(gene,real_score[idx_gene],1000000))
     Genetic.Write_Gene(descendants_gene)
 
 
