@@ -24,7 +24,7 @@ def return_score(network_list):
                 is_done = result[2]
         print(f"Episode {i} total reward:{total_reward}")
         return total_reward
-
+    
     score_sum = 0; score_list = []
     for network in network_list:
         if torch.cuda.is_available():
@@ -55,8 +55,10 @@ def return_score(network_list):
         print("Testing: ")
         score_sum += run_pipeline(environment_pipeline, episode_count=10)
         score_list.append(score_sum/10)
-        time.sleep(2)
-        torch.cuda.empty_cache()
+    
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()    
+        
         
 
     return score_list
