@@ -141,8 +141,7 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
                 network.add_connection(mid_connection, source=str(generating_protein[0]), target=str(generating_protein[1]))
             
             
-            device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-            network.to(device)
+            
             network_list.append(network)
             network.save('Network/' + str(i) + '.pt')
     return network_list
