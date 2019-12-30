@@ -6,7 +6,7 @@ def Generate_Gene_Pool(G_num,Neuron_Num):
     Gene_Pool = []
     for _ in range(G_num):
         tNoRN = rd.randint(int(Neuron_Num/10),Neuron_Num) #The Number of Random Neurons
-        tNoRC = rd.randint(1,tNoRN*(tNoRN-1)) #The Number of Random Connection
+        tNoRC = rd.randint(1,tNoRN*(tNoRN-1)+2) #The Number of Random Connection
         Gene = [] 
         for _ in range(tNoRC):
             Gene.append(NEAT.Generate_Gene_Base(tNoRN))
