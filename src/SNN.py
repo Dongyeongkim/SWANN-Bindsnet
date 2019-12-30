@@ -27,10 +27,8 @@ def return_score(network_list):
     
     score_sum = 0; score_list = []
     for network in network_list:
-        if torch.cuda.is_available():
-            network.cuda()
-        else:
-            pass
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        network.to(device)
         environment = GymEnvironment("BreakoutDeterministic-v4")
         environment.reset()
         # Build pipeline from specified components.
@@ -55,9 +53,8 @@ def return_score(network_list):
         print("Testing: ")
         score_sum += run_pipeline(environment_pipeline, episode_count=10)
         score_list.append(score_sum/10)
-    
-    if torch.cuda.is_available():
-        torch.cuda.empty_cache()    
+        time.sleep(1.5)
+        torch.cuda.empty_cache()
         
         
 
