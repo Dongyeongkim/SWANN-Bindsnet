@@ -1,2 +1,2 @@
 # SWANN
-implementing Spiking Neural Networks to Weight Agnostic Neural Networks
+implementing Weight Agnostic Neural Networks to Spiking Neural Networks
