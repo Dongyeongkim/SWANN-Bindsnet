@@ -11,7 +11,6 @@ def Generate_Gene_Pool(G_num,Neuron_Num):
         for _ in range(tNoRC):
             Gene.append(NEAT.Generate_Gene_Base(tNoRN))
         Gene_Pool.append(Gene)
-
     return Gene_Pool
 
 def Write_Gene(Gene_Pool):
@@ -37,6 +36,13 @@ def Read_Gene():
         Gene_Pool.append(GeneBase_List)
     
     return Gene_Pool
+
+
+
+
+
+
+
 
 
 
