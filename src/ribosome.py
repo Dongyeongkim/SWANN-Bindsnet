@@ -1,5 +1,4 @@
 import os
-import torch
 import Genetic
 from bindsnet.network import nodes
 from bindsnet.network import Network
@@ -81,8 +80,9 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
 
 
         for Decoded_RNA in Decoded_RNA_List:
-            print(Decoded_RNA)
+            
             layer_list = {}
+            
             for m in range(len(Decoded_RNA)):
 
                 for n in range(m, len(Decoded_RNA)):
@@ -103,6 +103,7 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
 
                     elif n == len(Decoded_List) - 1:
                         layer_list[Decoded_RNA[m][1]] = nodes.LIFNodes(n=1)
+            
             for l in range(len(Decoded_RNA)):
                 if not Decoded_RNA[l][0] in layer_list:
                     if Decoded_RNA[l][2] == 0:
@@ -116,40 +117,34 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
                     elif Decoded_RNA[l][2] == 4:
                         layer_list[Decoded_RNA[l][0]] = nodes.SRM0Nodes(n=1, traces=True)
 
-            Input_Layer = nodes.Input(n=input_N, shape=Shape, traces=True)
-            network.add_layer(layer=Input_Layer,name="Input Layer")
-            for key_l in list(layer_list.keys()):
-                network.add_layer(layer=layer_list[key_l], name=str(key_l))
-            out = nodes.LIFNodes(n=Output_N, refrac=0, traces=True)
-            network.add_layer(layer=out, name="Output Layer")
+        Input_Layer = nodes.Input(n=input_N, shape=Shape, traces=True)
+        network.add_layer(layer=Input_Layer,name="Input Layer")
+        for key_l in list(layer_list.keys()):
+            network.add_layer(layer=layer_list[key_l], name=str(key_l))
+        out = nodes.LIFNodes(n=Output_N, refrac=0, traces=True)
+        network.add_layer(layer=out, name="Output Layer")
 
-            for key_ic in list(layer_list.keys()):
-                inpt_connection = Connection(source=Input_Layer, target=layer_list[key_ic],
+        for key_ic in list(layer_list.keys()):
+            inpt_connection = Connection(source=Input_Layer, target=layer_list[key_ic],
                                              norm=Weight)
-                network.add_connection(inpt_connection, source="Input_Layer", target=str(key_ic))
+            network.add_connection(inpt_connection, source="Input_Layer", target=str(key_ic))
 
-            for key_op in list(layer_list.keys()):
-                output_connection = Connection(source=layer_list[key_op], target=out,
+        for key_op in list(layer_list.keys()):
+            output_connection = Connection(source=layer_list[key_op], target=out,
                                                norm=Weight, update_rule=MSTDP)
-                network.add_connection(output_connection, source=str(key_op), target="Output Layer")
+            network.add_connection(output_connection, source=str(key_op), target="Output Layer")
             print(layer_list)
-            for generating_protein in Decoded_RNA:
-                print(generating_protein)
-                mid_connection = Connection(source=layer_list[generating_protein[0]],
+        for generating_protein in Decoded_RNA:
+            #print(generating_protein)
+            mid_connection = Connection(source=layer_list[generating_protein[0]],
                                             target=layer_list[generating_protein[1]],
                                             wmin=-2, wmax=2, update_rule=MSTDP, norm=Weight)
-                network.add_connection(mid_connection, source=str(generating_protein[0]), target=str(generating_protein[1]))
-            
-            
-            
-            network_list.append(network)
-            network.save('Network/' + str(i) + '.pt')
+                
+            network.add_connection(mid_connection, source=str(generating_protein[0]), target=str(generating_protein[1]))
+
+        network_list.append(network)
+        network.save('Network/' + str(i) + '.pt')
+    print(len(network_list))
     return network_list
-
-
-
-
-
-
 
 
