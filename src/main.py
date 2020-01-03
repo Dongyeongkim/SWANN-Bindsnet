@@ -5,24 +5,20 @@ import ribosome
 import random as rd
 
 
-Generation_num = int(input("Input the number of testing generations"))
+Generation_num = 100#int(input("Input the number of testing generations"))
 
 for i in range(Generation_num):
     gene_list = Genetic.Read_Gene()
-    score_set = [-2, -1, 1, 2]
+
     gene_score_list = []
-    real_score = []
     selected_gene = []
     descendants_gene = []
     descendant_mutated = []
-    for score in score_set:
-        partial_score_list = []
-        network_list = ribosome.Translate_Into_Networks(80*80, [80, 80], 4, score)
-        partial_score_list = SNN.return_score(network_list)
-        gene_score_list.append(partial_score_list)
-    for j in range(len(gene_score_list)):
-        real_score.append(gene_score_list[0][j]+gene_score_list[1][j]+gene_score_list[2][j]+gene_score_list[3][j])
-    selected_gene: list = NEAT.calc_and_select_gene(real_score, gene_list)
+    score_list = []
+    network_list = ribosome.Translate_Into_Networks(4, [1,4], 2, -1)
+    score_list = SNN.return_score(network_list,i)
+    gene_score_list.append(score_list)
+    selected_gene: list = NEAT.calc_and_select_gene(gene_score_list, gene_list)
     gene_num: int = len(gene_list)/2
     for k in range(gene_num):
         cross1 = rd.choice(selected_gene)
@@ -33,8 +29,12 @@ for i in range(Generation_num):
         descendants_gene.append(Agene1)
         descendants_gene.append(Agene2)
     for idx_gene,gene in enumerate(descendants_gene):
-        descendant_mutated.append(NEAT.Mutate(gene,real_score[idx_gene],1000000))
+        descendant_mutated.append(NEAT.Mutate(gene,score_list[idx_gene],1000000))
     Genetic.Write_Gene(descendants_gene)
+
+
+
+
 
 
 
