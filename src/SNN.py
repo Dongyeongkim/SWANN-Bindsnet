@@ -1,4 +1,3 @@
-import time
 import torch
 from bindsnet.encoding import bernoulli
 from bindsnet.environment import GymEnvironment
@@ -23,13 +22,14 @@ def return_score(network_list,k):
         print(f"Episode {i} total reward:{total_reward}")
         return total_reward
 
-    score_sum = 0; score_list = []
+    score_list = []
     for i, network in enumerate(network_list):
+        score_sum = 0
         if torch.cuda.is_available():
-            network = network.cuda()
+            network = network.to('cuda:0')
         else:
             pass
-        environment = GymEnvironment("CartPole-v0")
+        environment = GymEnvironment('BreakoutDeterministic-v4')
         environment.reset()
         # Build pipeline from specified components.
         environment_pipeline = EnvironmentPipeline(
@@ -46,8 +46,8 @@ def return_score(network_list,k):
         environment_pipeline.network.learning = False
 
         print("Testing: ")
-        score_sum += run_pipeline(environment_pipeline, episode_count=10)
-        score_list.append(score_sum/10)
+        score_sum += run_pipeline(environment_pipeline, episode_count=2)
+        score_list.append(score_sum/2)
         torch.cuda.empty_cache()
     f = open('Score/'+str(k)+'.txt','w')
     f.write(str(score_list))
@@ -55,6 +55,3 @@ def return_score(network_list,k):
         
 
     return score_list
-
-
-
