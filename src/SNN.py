@@ -6,9 +6,7 @@ from bindsnet.pipeline import EnvironmentPipeline
 from bindsnet.pipeline.action import select_softmax
 
 
-
-def return_score(network_list):
-
+def return_score(network_list,k):
     def run_pipeline(pipeline, episode_count):
         for i in range(episode_count):
             total_reward = 0
@@ -16,20 +14,22 @@ def return_score(network_list):
             is_done = False
             while not is_done:
                 result = pipeline.env_step()
+                result = (result[0].cuda(), *result[1:])
                 pipeline.step(result)
-
                 reward = result[1]
                 total_reward += reward
 
                 is_done = result[2]
         print(f"Episode {i} total reward:{total_reward}")
         return total_reward
-    
+
     score_sum = 0; score_list = []
-    for network in network_list:
-        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-        network.to(device)
-        environment = GymEnvironment("BreakoutDeterministic-v4")
+    for i, network in enumerate(network_list):
+        if torch.cuda.is_available():
+            network = network.cuda()
+        else:
+            pass
+        environment = GymEnvironment("CartPole-v0")
         environment.reset()
         # Build pipeline from specified components.
         environment_pipeline = EnvironmentPipeline(
@@ -42,23 +42,16 @@ def return_score(network_list):
             history_length=1,
             delta=1,
             plot_interval=1,
-            render_interval=1,
         )
-        print("Training: ")
-        run_pipeline(environment_pipeline, episode_count=10)
-
-        # stop learning
         environment_pipeline.network.learning = False
 
         print("Testing: ")
         score_sum += run_pipeline(environment_pipeline, episode_count=10)
         score_list.append(score_sum/10)
-        time.sleep(1.5)
         torch.cuda.empty_cache()
-        
+        f = open('Score/'+str(k)+'_'+str(i)+'.txt','w')
+        f.write(str(score_list))
+        f.close()
         
 
     return score_list
-
-
-
