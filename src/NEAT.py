@@ -1,14 +1,16 @@
 import random as rd
+import numpy as np
 
 ### - IMPLEMENT NEAT ALGORITHM TO THIS - ###
 
 def Crossover(gene1,gene2):
     A_Gene1 = []; A_Gene2 = []
     C_Gene1 = gene1; C_Gene2 = gene2
+    print(C_Gene1,C_Gene2)
     # Crossovering Process
     for i in range(len(C_Gene1)):
-        if(i>len(C_Gene2)-1):
-            A_Gene1.append(C_Gene1)
+        if i>len(C_Gene2)-1:
+            A_Gene1.append(C_Gene1[i])
         else:
             S_Genotype = rd.randint(0, 1)
             if(S_Genotype==0):
@@ -18,7 +20,7 @@ def Crossover(gene1,gene2):
      
     for j in range(len(C_Gene2)):
         if j > len(C_Gene1)-1:
-            A_Gene2.append(C_Gene2)
+            A_Gene2.append(C_Gene2[j])
         else:
             S_Genotype = rd.randint(0, 1)
             if S_Genotype == 0:
@@ -48,7 +50,7 @@ def Mutate(Gene,score,Neuron_Num):
         if(score>100):
             Mutated_Gene.append(Gene[i])
         else:
-            Decoded_Gene = Gene[i].split('-')
+            Decoded_Gene = Gene[i]
             Source_Neuron = Decoded_Gene[0]
             Target_Neuron = Decoded_Gene[2]
             Neuron_Type = rd.choice('~!@#$')
@@ -65,10 +67,11 @@ def Mutate(Gene,score,Neuron_Num):
     return Mutated_Gene
 
 def calc_and_select_gene(accr_set, gene_list):
-    all_sum = sum(accr_set)
+    score_set = accr_set[0]
+    all_sum = sum(score_set)
     fitness_set = []; selected_gene = []
-    for i in range(len(accr_set)):
-        fitness_set.append(accr_set[i]/all_sum)
+    for i in range(len(score_set)):
+        fitness_set.append(score_set[i]/all_sum)
     for j in range(len(gene_list)):
-        selected_gene.append(rd.choice(gene_list, p=fitness_set))
+        selected_gene.append(np.random.choice(gene_list, p=fitness_set))
     return selected_gene
