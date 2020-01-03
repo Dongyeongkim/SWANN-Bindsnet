@@ -49,9 +49,12 @@ def return_score(network_list,k):
         score_sum += run_pipeline(environment_pipeline, episode_count=10)
         score_list.append(score_sum/10)
         torch.cuda.empty_cache()
-        f = open('Score/'+str(k)+'_'+str(i)+'.txt','w')
-        f.write(str(score_list))
-        f.close()
+    f = open('Score/'+str(k)+'.txt','w')
+    f.write(str(score_list))
+    f.close()
         
 
     return score_list
+
+
+
