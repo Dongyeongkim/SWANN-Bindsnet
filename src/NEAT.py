@@ -72,6 +72,10 @@ def calc_and_select_gene(accr_set, gene_list):
     fitness_set = []; selected_gene = []
     for i in range(len(score_set)):
         fitness_set.append(score_set[i]/all_sum)
-    for j in range(len(gene_list)):
-        selected_gene.append(np.random.choice(gene_list, p=fitness_set))
+    print(gene_list)
+    index_gene_list = []
+    for q in range(len(gene_list)):
+        index_gene_list.append(q)
+    for _ in range(len(gene_list)):
+        selected_gene.append(gene_list[np.random.choice(index_gene_list, p=fitness_set)])
     return selected_gene
