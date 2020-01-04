@@ -127,23 +127,23 @@ def Translate_Into_Networks(input_N,Shape,Output_N,Weight):
         if len(layer_list.keys()) == 0:
             layer = nodes.LIFNodes(n=1,traces=True)
             network.add_layer(layer=layer,name="mid layer")
-            inpt_connection = Connection(source=Input_Layer,target=layer,norm=Weight)
-            opt_connection = Connection(source=layer,target=out,norm=Weight)
+            inpt_connection = Connection(source=Input_Layer,target=layer,w=Weight*torch.ones(input_N))
+            opt_connection = Connection(source=layer,target=out,w=Weight*torch.ones(1))
             network.add_connection(inpt_connection,source="Input_Layer",target="mid layer")
             network.add_connection(opt_connection,source="mid layer",target="Output Layer")
         else:
             for key_ic in list(layer_list.keys()):
                 inpt_connection = Connection(source=Input_Layer, target=layer_list[key_ic],
-                                             norm=Weight)
+                                             w=Weight*torch.ones(input_N))
                 network.add_connection(inpt_connection, source="Input_Layer", target=str(key_ic))
             for key_op in list(layer_list.keys()):
                 output_connection = Connection(source=layer_list[key_op], target=out,
-                                               norm=Weight, update_rule=MSTDP)
+                                               w=Weight*torch.ones(1), update_rule=MSTDP)
                 network.add_connection(output_connection, source=str(key_op), target="Output Layer")
             for generating_protein in Decoded_RNA:
                 mid_connection = Connection(source=layer_list[generating_protein[0]],
                                             target=layer_list[generating_protein[1]],
-                                            wmin=-2, wmax=2, update_rule=MSTDP, norm=Weight)
+                                            w=Weight*torch.ones(1),update_rule=MSTDP)
                 network.add_connection(mid_connection, source=str(generating_protein[0]),
                                        target=str(generating_protein[1]))
 
