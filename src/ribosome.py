@@ -1,4 +1,5 @@
 import os
+import torch
 import Genetic
 from bindsnet.network import nodes
 from bindsnet.network import Network
